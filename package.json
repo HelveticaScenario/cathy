@@ -18,9 +18,14 @@
     "db-dump": "yarn db-gm migrate && yarn db-gm reset --shadow --erase && yarn db-gm migrate --shadow --forceActions"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
+    "graphile-build": "^4.5.0",
+    "graphile-build-pg": "^4.5.3",
+    "graphile-migrate": "^0.1.0",
+    "graphql": "^14.0.0",
     "lerna": "^3.20.2",
     "now": "^18.0.0",
-    "pg": "^8.0.2",
+    "pg": "^6.0.0",
     "postgraphile": "^4.6.0"
   }
 }
