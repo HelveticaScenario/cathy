@@ -60,5 +60,9 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: heroku ps:wait -a ${{ secrets.HEROKU_APP_NAME }}
     
-    - name: Deploy client to now
-      run: now --prod --token=${{ secrets.NOW_API_TOKEN }}
+    - uses: amondnet/now-deployment@v2
+      with:
+        zeit-token: ${{ secrets.NOW_API_TOKEN }} # Required
+        now-args: '--prod' #Optional
+        now-org-id: ${{ secrets.NOW_ORG_ID}}  #Required
+        now-project-id: ${{ secrets.NOW_PROJECT_ID}} #Required 
