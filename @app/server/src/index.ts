@@ -22,12 +22,16 @@ const pgConfig = {
 const postgraphileOptions: PostGraphileOptions = {
 	enableCors: true,
 	dynamicJson: true,
+	graphiql: true,
+	enhanceGraphiql: true,
 	/* ... */
 }
 
 if (env === 'development') {
 	postgraphileOptions.exportGqlSchemaPath = '../../data/schema.graphql'
 }
+app.use('/', (req, res, next) => {
+	res.send('<marquee>Welcome to my PostGraphile server!</marquee>')
+})
 app.use(postgraphile(pgConfig, ['public', 'app_public'], postgraphileOptions))
-
 app.listen(Number(process.env.PORT) || 3000)
