@@ -3,4 +3,3 @@ const dotenv = require('dotenv')
 dotenv.config({ path: `${__dirname}/../../.env` })
 
 require('./extra')
-export const done = true
