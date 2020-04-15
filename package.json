@@ -7,7 +7,7 @@
   },
   "scripts": {
     "setup": "npm install && node ./scripts/setup.js",
-    "watch": "concurrently --kill-others --names 'MIGRATE,LERNA' --prefix '({name})' --prefix-colors 'yellow.bold,cyan.bold,greenBright.bold' 'npm run db-watch' 'lerna run watch --stream'",
+    "watch": "concurrently --kill-others --names 'MIGRATE,LERNA' --prefix '({name})' --prefix-colors 'yellow.bold,cyan.bold,greenBright.bold' 'yarn db-watch' 'lerna run watch --stream'",
     "exportGraphqlSchema": "yarn node ./scripts/exportGraphqlSchema.js",
     "db-gm": "node -r ./@app/server/src/config/env node_modules/.bin/graphile-migrate",
     "db-migrate": "yarn db-gm migrate",
@@ -18,6 +18,7 @@
     "db-dump": "yarn db-gm migrate && yarn db-gm reset --shadow --erase && yarn db-gm migrate --shadow --forceActions"
   },
   "devDependencies": {
+    "concurrently": "^5.1.0",
     "dotenv": "^8.2.0",
     "graphile-build": "^4.5.0",
     "graphile-build-pg": "^4.5.3",

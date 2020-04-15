@@ -5,7 +5,8 @@
         "build": "echo \"Hello\" && yarn codegen-prod && next build",
         "codegen": "graphql-codegen --config codegen.yml",
         "codegen-prod": "graphql-codegen --config prod.codegen.yml",
-        "codegen-watch": "yarn codegen --watch"
+        "codegen-watch": "yarn codegen --watch",
+        "watch": "concurrently --kill-others --names 'CODEGEN,NEXT' --prefix '({name})' --prefix-colors 'yellow.bold,cyan.bold,greenBright.bold' 'yarn codegen-watch' 'yarn next dev'"
     },
     "dependencies": {
         "@apollo/react-common": "^3.1.4",
@@ -20,13 +21,14 @@
         "react-dom": "^16.13.1"
     },
     "devDependencies": {
-        "@types/node": "^13.11.1",
-        "@types/react": "^16.9.34",
         "@graphql-codegen/add": "^1.13.1",
         "@graphql-codegen/cli": "^1.13.1",
         "@graphql-codegen/typescript": "^1.13.1",
         "@graphql-codegen/typescript-operations": "^1.13.1",
         "@graphql-codegen/typescript-react-apollo": "1.13.1",
+        "@types/node": "^13.11.1",
+        "@types/react": "^16.9.34",
+        "concurrently": "^5.1.0",
         "typescript": "^3.8.3"
     }
 }

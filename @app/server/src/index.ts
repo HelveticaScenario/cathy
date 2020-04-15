@@ -6,7 +6,7 @@ import { bar } from './foo'
 
 const app = express()
 
-var env = process.env.NODE_ENV || 'development'
+const isDev = (process.env.NODE_ENV || 'development') === 'development'
 
 const pgConfig = {
 	host: process.env.DATABASE_HOST || 'localhost',
@@ -23,10 +23,16 @@ const postgraphileOptions: PostGraphileOptions = {
 	dynamicJson: true,
 	graphiql: true,
 	enhanceGraphiql: true,
+	watchPg: isDev,
+	ignoreRBAC: false,
+
+	// Keep data/schema.graphql up to date
+
 	/* ... */
 }
 
-if (env === 'development') {
+if (isDev) {
+	postgraphileOptions.sortExport = true
 	postgraphileOptions.exportGqlSchemaPath = '../../data/schema.graphql'
 }
 app.use(postgraphile(pgConfig, ['public', 'app_public'], postgraphileOptions))

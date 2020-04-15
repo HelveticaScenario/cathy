@@ -38,10 +38,10 @@ export type CreateDrawingPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `Drawing` that was created by this mutation. */
   drawing?: Maybe<Drawing>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
   /** An edge for our `Drawing`. May be used by Relay 1. */
   drawingEdge?: Maybe<DrawingsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
 };
 
 
@@ -80,13 +80,13 @@ export type DeleteDrawingPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  deletedDrawingId?: Maybe<Scalars['ID']>;
   /** The `Drawing` that was deleted by this mutation. */
   drawing?: Maybe<Drawing>;
-  deletedDrawingId?: Maybe<Scalars['ID']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
   /** An edge for our `Drawing`. May be used by Relay 1. */
   drawingEdge?: Maybe<DrawingsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
 };
 
 
@@ -97,49 +97,49 @@ export type DeleteDrawingPayloadDrawingEdgeArgs = {
 
 export type Drawing = Node & {
    __typename?: 'Drawing';
+  height: Scalars['Int'];
+  mosaicId: Scalars['UUID'];
+  name: Scalars['String'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  mosaicId: Scalars['UUID'];
   width: Scalars['Int'];
-  height: Scalars['Int'];
-  name: Scalars['String'];
 };
 
 /** A condition to be used against `Drawing` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type DrawingCondition = {
-  /** Checks for equality with the object’s `mosaicId` field. */
-  mosaicId?: Maybe<Scalars['UUID']>;
-  /** Checks for equality with the object’s `width` field. */
-  width?: Maybe<Scalars['Int']>;
   /** Checks for equality with the object’s `height` field. */
   height?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `mosaicId` field. */
+  mosaicId?: Maybe<Scalars['UUID']>;
   /** Checks for equality with the object’s `name` field. */
   name?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `width` field. */
+  width?: Maybe<Scalars['Int']>;
 };
 
 /** An input for mutations affecting `Drawing` */
 export type DrawingInput = {
-  mosaicId?: Maybe<Scalars['UUID']>;
-  width: Scalars['Int'];
   height: Scalars['Int'];
+  mosaicId?: Maybe<Scalars['UUID']>;
   name: Scalars['String'];
+  width: Scalars['Int'];
 };
 
 /** Represents an update to a `Drawing`. Fields that are set will be updated. */
 export type DrawingPatch = {
-  mosaicId?: Maybe<Scalars['UUID']>;
-  width?: Maybe<Scalars['Int']>;
   height?: Maybe<Scalars['Int']>;
+  mosaicId?: Maybe<Scalars['UUID']>;
   name?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Int']>;
 };
 
 /** A connection to a list of `Drawing` values. */
 export type DrawingsConnection = {
    __typename?: 'DrawingsConnection';
-  /** A list of `Drawing` objects. */
-  nodes: Array<Maybe<Drawing>>;
   /** A list of edges which contains the `Drawing` and cursor to aid in pagination. */
   edges: Array<DrawingsEdge>;
+  /** A list of `Drawing` objects. */
+  nodes: Array<Maybe<Drawing>>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `Drawing` you could get from the connection. */
@@ -157,17 +157,17 @@ export type DrawingsEdge = {
 
 /** Methods to use when ordering `Drawing`. */
 export enum DrawingsOrderBy {
-  Natural = 'NATURAL',
-  MosaicIdAsc = 'MOSAIC_ID_ASC',
-  MosaicIdDesc = 'MOSAIC_ID_DESC',
-  WidthAsc = 'WIDTH_ASC',
-  WidthDesc = 'WIDTH_DESC',
   HeightAsc = 'HEIGHT_ASC',
   HeightDesc = 'HEIGHT_DESC',
+  MosaicIdAsc = 'MOSAIC_ID_ASC',
+  MosaicIdDesc = 'MOSAIC_ID_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
+  Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  WidthAsc = 'WIDTH_ASC',
+  WidthDesc = 'WIDTH_DESC'
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -175,32 +175,20 @@ export type Mutation = {
    __typename?: 'Mutation';
   /** Creates a single `Drawing`. */
   createDrawing?: Maybe<CreateDrawingPayload>;
-  /** Updates a single `Drawing` using its globally unique id and a patch. */
-  updateDrawing?: Maybe<UpdateDrawingPayload>;
-  /** Updates a single `Drawing` using a unique key and a patch. */
-  updateDrawingByMosaicId?: Maybe<UpdateDrawingPayload>;
   /** Deletes a single `Drawing` using its globally unique id. */
   deleteDrawing?: Maybe<DeleteDrawingPayload>;
   /** Deletes a single `Drawing` using a unique key. */
   deleteDrawingByMosaicId?: Maybe<DeleteDrawingPayload>;
+  /** Updates a single `Drawing` using its globally unique id and a patch. */
+  updateDrawing?: Maybe<UpdateDrawingPayload>;
+  /** Updates a single `Drawing` using a unique key and a patch. */
+  updateDrawingByMosaicId?: Maybe<UpdateDrawingPayload>;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateDrawingArgs = {
   input: CreateDrawingInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateDrawingArgs = {
-  input: UpdateDrawingInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateDrawingByMosaicIdArgs = {
-  input: UpdateDrawingByMosaicIdInput;
 };
 
 
@@ -215,6 +203,18 @@ export type MutationDeleteDrawingByMosaicIdArgs = {
   input: DeleteDrawingByMosaicIdInput;
 };
 
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateDrawingArgs = {
+  input: UpdateDrawingInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateDrawingByMosaicIdArgs = {
+  input: UpdateDrawingByMosaicIdInput;
+};
+
 /** An object with a globally unique `ID`. */
 export type Node = {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -224,51 +224,51 @@ export type Node = {
 /** Information about pagination in a connection. */
 export type PageInfo = {
    __typename?: 'PageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['Cursor']>;
   /** When paginating forwards, are there more items? */
   hasNextPage: Scalars['Boolean'];
   /** When paginating backwards, are there more items? */
   hasPreviousPage: Scalars['Boolean'];
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['Cursor']>;
-  /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars['Cursor']>;
 };
 
 /** The root query type which gives access points into the data universe. */
 export type Query = Node & {
    __typename?: 'Query';
+  /** Reads and enables pagination through a set of `Drawing`. */
+  allDrawings?: Maybe<DrawingsConnection>;
+  /** Reads a single `Drawing` using its globally unique `ID`. */
+  drawing?: Maybe<Drawing>;
+  drawingByMosaicId?: Maybe<Drawing>;
+  /** Fetches an object given its globally unique `ID`. */
+  node?: Maybe<Node>;
+  /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
+  nodeId: Scalars['ID'];
   /**
    * Exposes the root query type nested one level down. This is helpful for Relay 1
    * which can only query top level fields if they are in a particular form.
    */
   query: Query;
-  /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
-  nodeId: Scalars['ID'];
-  /** Fetches an object given its globally unique `ID`. */
-  node?: Maybe<Node>;
-  /** Reads and enables pagination through a set of `Drawing`. */
-  allDrawings?: Maybe<DrawingsConnection>;
-  drawingByMosaicId?: Maybe<Drawing>;
-  /** Reads a single `Drawing` using its globally unique `ID`. */
-  drawing?: Maybe<Drawing>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryNodeArgs = {
-  nodeId: Scalars['ID'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryAllDrawingsArgs = {
+  after?: Maybe<Scalars['Cursor']>;
+  before?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<DrawingCondition>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
   orderBy?: Maybe<Array<DrawingsOrderBy>>;
-  condition?: Maybe<DrawingCondition>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryDrawingArgs = {
+  nodeId: Scalars['ID'];
 };
 
 
@@ -279,7 +279,7 @@ export type QueryDrawingByMosaicIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryDrawingArgs = {
+export type QueryNodeArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -302,10 +302,10 @@ export type UpdateDrawingInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Drawing` to be updated. */
-  nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `Drawing` being updated. */
   drawingPatch: DrawingPatch;
+  /** The globally unique `ID` which will identify a single `Drawing` to be updated. */
+  nodeId: Scalars['ID'];
 };
 
 /** The output of our update `Drawing` mutation. */
@@ -318,10 +318,10 @@ export type UpdateDrawingPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `Drawing` that was updated by this mutation. */
   drawing?: Maybe<Drawing>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
   /** An edge for our `Drawing`. May be used by Relay 1. */
   drawingEdge?: Maybe<DrawingsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
 };
 
 
