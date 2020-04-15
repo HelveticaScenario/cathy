@@ -1,5 +1,4 @@
 import './config/env'
-import AWS from 'aws-sdk'
 import express from 'express'
 import { postgraphile, PostGraphileOptions } from 'postgraphile'
 import { PoolConfig } from 'pg'
@@ -30,8 +29,8 @@ const postgraphileOptions: PostGraphileOptions = {
 if (env === 'development') {
 	postgraphileOptions.exportGqlSchemaPath = '../../data/schema.graphql'
 }
+app.use(postgraphile(pgConfig, ['public', 'app_public'], postgraphileOptions))
 app.use('/', (req, res, next) => {
 	res.send('<marquee>Welcome to my PostGraphile server!</marquee>')
 })
-app.use(postgraphile(pgConfig, ['public', 'app_public'], postgraphileOptions))
 app.listen(Number(process.env.PORT) || 3000)
