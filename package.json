@@ -1,0 +1,29 @@
+{
+  "name": "root",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "setup": "npm install && node ./scripts/setup.js",
+    "watch": "concurrently --kill-others --names 'NEXT,MIGRATE,CODEGEN' --prefix '({name})' --prefix-colors 'yellow.bold,cyan.bold,greenBright.bold' 'next dev' 'npm run db-watch' 'npm run codegen-watch'",
+    "build": "next build",
+    "start": "next start",
+    "build-server": "tsc -b server",
+    "run-server": "node server/dist/index.js",
+    "exportGraphqlSchema": "yarn node ./scripts/exportGraphqlSchema.js",
+    "db-gm": "node -r ./server/config/env node_modules/.bin/graphile-migrate",
+    "db-migrate": "yarn db-gm migrate",
+    "db-watch": "yarn db-gm watch",
+    "db-commit": "yarn db-gm commit",
+    "db-uncommit": "yarn db-gm uncommit",
+    "db-reset": "yarn db-gm reset",
+    "db-dump": "yarn db-gm migrate && yarn db-gm reset --shadow --erase && yarn db-gm migrate --shadow --forceActions",
+    "codegen": "graphql-codegen --config codegen.yml",
+    "codegen-prod": "graphql-codegen --config prod.codegen.yml",
+    "codegen-watch": "yarn codegen --watch"
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2",
+    "pg": "^8.0.2",
+    "postgraphile": "^4.6.0"
+  }
+}

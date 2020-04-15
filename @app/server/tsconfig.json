@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"lib": ["ES2019"],
+		"module": "commonjs",
+		"target": "ES2019",
+		"rootDir": "src",
+		"outDir": "dist",
+		"esModuleInterop": true,
+		"incremental": true,
+		"allowJs": true
+	}
+}

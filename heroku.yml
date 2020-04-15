@@ -1,0 +1,4 @@
+build:
+  docker:
+    server: '@app/server/Dockerfile'
+  
