@@ -1,4 +1,32 @@
 {
     "name": "@app/client",
-    "private": true
+    "private": true,
+    "scripts": {
+        "build": "echo \"Hello\" && yarn codegen-prod && next build",
+        "codegen": "graphql-codegen --config codegen.yml",
+        "codegen-prod": "graphql-codegen --config prod.codegen.yml",
+        "codegen-watch": "yarn codegen --watch"
+    },
+    "dependencies": {
+        "@apollo/react-common": "^3.1.4",
+        "@apollo/react-hooks": "^3.1.5",
+        "apollo-client": "^2.6.8",
+        "apollo-utilities": "^1.3.3",
+        "graphql": "^14.0.0",
+        "graphql-tag": "^2.10.3",
+        "next": "^9.3.5",
+        "react": "^16.13.1",
+        "react-dev": "^0.0.1",
+        "react-dom": "^16.13.1"
+    },
+    "devDependencies": {
+        "@types/node": "^13.11.1",
+        "@types/react": "^16.9.34",
+        "@graphql-codegen/add": "^1.13.1",
+        "@graphql-codegen/cli": "^1.13.1",
+        "@graphql-codegen/typescript": "^1.13.1",
+        "@graphql-codegen/typescript-operations": "^1.13.1",
+        "@graphql-codegen/typescript-react-apollo": "1.13.1",
+        "typescript": "^3.8.3"
+    }
 }
