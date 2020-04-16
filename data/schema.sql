@@ -79,30 +79,6 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
 
-SET default_tablespace = '';
-
---
--- Name: drawings; Type: TABLE; Schema: app_public; Owner: -
---
-
-CREATE TABLE app_public.drawings (
-    mosaic_id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    width integer NOT NULL,
-    height integer NOT NULL,
-    name text NOT NULL,
-    CONSTRAINT drawings_height_check CHECK ((height > 0)),
-    CONSTRAINT drawings_width_check CHECK ((width > 0))
-);
-
-
---
--- Name: drawings drawings_pkey; Type: CONSTRAINT; Schema: app_public; Owner: -
---
-
-ALTER TABLE ONLY app_public.drawings
-    ADD CONSTRAINT drawings_pkey PRIMARY KEY (mosaic_id);
-
-
 --
 -- Name: SCHEMA app_hidden; Type: ACL; Schema: -; Owner: -
 --
@@ -124,13 +100,6 @@ GRANT USAGE ON SCHEMA app_public TO wfc_draw_visitor;
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 GRANT ALL ON SCHEMA public TO wfc_draw;
 GRANT USAGE ON SCHEMA public TO wfc_draw_visitor;
-
-
---
--- Name: TABLE drawings; Type: ACL; Schema: app_public; Owner: -
---
-
-GRANT SELECT ON TABLE app_public.drawings TO wfc_draw_visitor;
 
 
 --

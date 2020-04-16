@@ -13,7 +13,6 @@ ${PG_DUMP:-pg_dump} \
   --no-owner \
   --exclude-schema=graphile_migrate \
   --exclude-schema=graphile_worker \
+  --exclude-schema=postgraphile_watch \
   --file=./data/schema.sql \
   "$GM_DBURL"
-
-# yarn exportGraphqlSchema

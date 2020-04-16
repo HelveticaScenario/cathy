@@ -1,7 +1,0 @@
-query GetDrawings {
-	allDrawings {
-       pageInfo {
-           hasPreviousPage
-       }
-    }
-}
