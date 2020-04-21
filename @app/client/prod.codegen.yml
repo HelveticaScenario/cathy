@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'https://wfc-draw.herokuapp.com/graphql'
+schema: 'https://cathy-prod.herokuapp.com/graphql'
 documents: 'graphql/**/*.graphql'
 config:
   scalars:

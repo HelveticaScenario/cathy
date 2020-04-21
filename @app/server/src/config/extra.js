@@ -3,22 +3,24 @@
 // NOTE: 'psql' does not like ?ssl=1, use ?sslmode=require for psql.
 // NOTE: these used to be in `.env` but now it is used by docker-compose we can't use expansions
 
+const sslString =
+	process.env.NODE_ENV === 'production' ? '?ssl=1' : ''
 
 process.env.DATABASE_URL =
-  process.env.DATABASE_URL ||
-  `postgres://${process.env.DATABASE_OWNER}:${process.env.DATABASE_OWNER_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}`;
+	process.env.DATABASE_URL ||
+	`postgres://${process.env.DATABASE_OWNER}:${process.env.DATABASE_OWNER_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}${sslString}`
 process.env.AUTH_DATABASE_URL =
-  process.env.AUTH_DATABASE_URL ||
-  `postgres://${process.env.DATABASE_AUTHENTICATOR}:${process.env.DATABASE_AUTHENTICATOR_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}`;
+	process.env.AUTH_DATABASE_URL ||
+	`postgres://${process.env.DATABASE_AUTHENTICATOR}:${process.env.DATABASE_AUTHENTICATOR_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}${sslString}`
 process.env.SHADOW_DATABASE_URL =
-  process.env.SHADOW_DATABASE_URL ||
-  `postgres://${process.env.DATABASE_OWNER}:${process.env.DATABASE_OWNER_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}_shadow`;
+	process.env.SHADOW_DATABASE_URL ||
+	`postgres://${process.env.DATABASE_OWNER}:${process.env.DATABASE_OWNER_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}_shadow${sslString}`
 process.env.SHADOW_AUTH_DATABASE_URL =
-  process.env.SHADOW_AUTH_DATABASE_URL ||
-  `postgres://${process.env.DATABASE_AUTHENTICATOR}:${process.env.DATABASE_AUTHENTICATOR_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}_shadow`;
+	process.env.SHADOW_AUTH_DATABASE_URL ||
+	`postgres://${process.env.DATABASE_AUTHENTICATOR}:${process.env.DATABASE_AUTHENTICATOR_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}_shadow${sslString}`
 
 // Always overwrite test database URL
-process.env.TEST_DATABASE_URL = `postgres://${process.env.DATABASE_OWNER}:${process.env.DATABASE_OWNER_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}_test`;
+process.env.TEST_DATABASE_URL = `postgres://${process.env.DATABASE_OWNER}:${process.env.DATABASE_OWNER_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}_test${sslString}`
 
 // https://docs.cypress.io/guides/guides/environment-variables.html#Option-3-CYPRESS
-process.env.CYPRESS_ROOT_URL = process.env.ROOT_URL;
+process.env.CYPRESS_ROOT_URL = process.env.ROOT_URL

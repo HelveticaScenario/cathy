@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@graphile-contrib/pg-simplify-inflector@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@graphile-contrib/pg-simplify-inflector/-/pg-simplify-inflector-6.0.0.tgz#50fd68e10f1f696c57c1642f4b1b3f223024e4f6"
+  integrity sha512-ZT/rgpcTnwkdOhrxwI9Rao96LZu6TTASkbQZy79mu9jEwqTkfOd5Lp5q1S4x1e/hNKLSQF5tnRdabIxBiuC23w==
+
 "@graphile/lru@4.5.0":
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/@graphile/lru/-/lru-4.5.0.tgz#e8fe036d322dfe1715675aab171979981e28ac9e"

@@ -223,7 +223,7 @@ async function main() {
 
   // FINALLY we can source our environment
   dotenv.config({ path: `${__dirname}/../.env` });
-  require(`${__dirname}/../config/extra`);
+  require(`${__dirname}/../@app/server/src/config/extra`);
   const {
     DATABASE_AUTHENTICATOR,
     DATABASE_AUTHENTICATOR_PASSWORD,
