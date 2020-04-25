@@ -11,6 +11,676 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122). */
+  UUID: any;
+  /** A location in a connection that can be used for resuming pagination. */
+  Cursor: any;
+  /**
+   * A point in time as described by the [ISO
+   * 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+   */
+  Datetime: string;
+};
+
+export type Chatroom = Node & {
+   __typename?: 'Chatroom';
+  id: Scalars['UUID'];
+  /** Reads and enables pagination through a set of `Message`. */
+  messages: MessagesConnection;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  /** Reads and enables pagination through a set of `UsersChatroom`. */
+  usersChatrooms: UsersChatroomsConnection;
+};
+
+
+export type ChatroomMessagesArgs = {
+  after?: Maybe<Scalars['Cursor']>;
+  before?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<MessageCondition>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<MessagesOrderBy>>;
+};
+
+
+export type ChatroomUsersChatroomsArgs = {
+  after?: Maybe<Scalars['Cursor']>;
+  before?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<UsersChatroomCondition>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<UsersChatroomsOrderBy>>;
+};
+
+/**
+ * A condition to be used against `Chatroom` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type ChatroomCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['UUID']>;
+};
+
+/** An input for mutations affecting `Chatroom` */
+export type ChatroomInput = {
+  id?: Maybe<Scalars['UUID']>;
+};
+
+/** Represents an update to a `Chatroom`. Fields that are set will be updated. */
+export type ChatroomPatch = {
+  id?: Maybe<Scalars['UUID']>;
+};
+
+/** A connection to a list of `Chatroom` values. */
+export type ChatroomsConnection = {
+   __typename?: 'ChatroomsConnection';
+  /** A list of edges which contains the `Chatroom` and cursor to aid in pagination. */
+  edges: Array<ChatroomsEdge>;
+  /** A list of `Chatroom` objects. */
+  nodes: Array<Chatroom>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Chatroom` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Chatroom` edge in the connection. */
+export type ChatroomsEdge = {
+   __typename?: 'ChatroomsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Chatroom` at the end of the edge. */
+  node: Chatroom;
+};
+
+/** Methods to use when ordering `Chatroom`. */
+export enum ChatroomsOrderBy {
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** All input for the create `Chatroom` mutation. */
+export type CreateChatroomInput = {
+  /** The `Chatroom` to be created by this mutation. */
+  chatroom: ChatroomInput;
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `Chatroom` mutation. */
+export type CreateChatroomPayload = {
+   __typename?: 'CreateChatroomPayload';
+  /** The `Chatroom` that was created by this mutation. */
+  chatroom?: Maybe<Chatroom>;
+  /** An edge for our `Chatroom`. May be used by Relay 1. */
+  chatroomEdge?: Maybe<ChatroomsEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `Chatroom` mutation. */
+export type CreateChatroomPayloadChatroomEdgeArgs = {
+  orderBy?: Maybe<Array<ChatroomsOrderBy>>;
+};
+
+/** All input for the create `Message` mutation. */
+export type CreateMessageInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Message` to be created by this mutation. */
+  message: MessageInput;
+};
+
+/** The output of our create `Message` mutation. */
+export type CreateMessagePayload = {
+   __typename?: 'CreateMessagePayload';
+  /** Reads a single `Chatroom` that is related to this `Message`. */
+  chatroom?: Maybe<Chatroom>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Message` that was created by this mutation. */
+  message?: Maybe<Message>;
+  /** An edge for our `Message`. May be used by Relay 1. */
+  messageEdge?: Maybe<MessagesEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `Message`. */
+  user?: Maybe<User>;
+};
+
+
+/** The output of our create `Message` mutation. */
+export type CreateMessagePayloadMessageEdgeArgs = {
+  orderBy?: Maybe<Array<MessagesOrderBy>>;
+};
+
+/** All input for the create `User` mutation. */
+export type CreateUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` to be created by this mutation. */
+  user: UserInput;
+};
+
+/** The output of our create `User` mutation. */
+export type CreateUserPayload = {
+   __typename?: 'CreateUserPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** The `User` that was created by this mutation. */
+  user?: Maybe<User>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our create `User` mutation. */
+export type CreateUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the create `UsersChatroom` mutation. */
+export type CreateUsersChatroomInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UsersChatroom` to be created by this mutation. */
+  usersChatroom: UsersChatroomInput;
+};
+
+/** The output of our create `UsersChatroom` mutation. */
+export type CreateUsersChatroomPayload = {
+   __typename?: 'CreateUsersChatroomPayload';
+  /** Reads a single `Chatroom` that is related to this `UsersChatroom`. */
+  chatroom?: Maybe<Chatroom>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UsersChatroom`. */
+  user?: Maybe<User>;
+  /** The `UsersChatroom` that was created by this mutation. */
+  usersChatroom?: Maybe<UsersChatroom>;
+  /** An edge for our `UsersChatroom`. May be used by Relay 1. */
+  usersChatroomEdge?: Maybe<UsersChatroomsEdge>;
+};
+
+
+/** The output of our create `UsersChatroom` mutation. */
+export type CreateUsersChatroomPayloadUsersChatroomEdgeArgs = {
+  orderBy?: Maybe<Array<UsersChatroomsOrderBy>>;
+};
+
+
+
+/** All input for the `deleteChatroomByNodeId` mutation. */
+export type DeleteChatroomByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Chatroom` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteChatroom` mutation. */
+export type DeleteChatroomInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
+};
+
+/** The output of our delete `Chatroom` mutation. */
+export type DeleteChatroomPayload = {
+   __typename?: 'DeleteChatroomPayload';
+  /** The `Chatroom` that was deleted by this mutation. */
+  chatroom?: Maybe<Chatroom>;
+  /** An edge for our `Chatroom`. May be used by Relay 1. */
+  chatroomEdge?: Maybe<ChatroomsEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  deletedChatroomNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `Chatroom` mutation. */
+export type DeleteChatroomPayloadChatroomEdgeArgs = {
+  orderBy?: Maybe<Array<ChatroomsOrderBy>>;
+};
+
+/** All input for the `deleteMessageByNodeId` mutation. */
+export type DeleteMessageByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Message` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteMessage` mutation. */
+export type DeleteMessageInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
+};
+
+/** The output of our delete `Message` mutation. */
+export type DeleteMessagePayload = {
+   __typename?: 'DeleteMessagePayload';
+  /** Reads a single `Chatroom` that is related to this `Message`. */
+  chatroom?: Maybe<Chatroom>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  deletedMessageNodeId?: Maybe<Scalars['ID']>;
+  /** The `Message` that was deleted by this mutation. */
+  message?: Maybe<Message>;
+  /** An edge for our `Message`. May be used by Relay 1. */
+  messageEdge?: Maybe<MessagesEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `Message`. */
+  user?: Maybe<User>;
+};
+
+
+/** The output of our delete `Message` mutation. */
+export type DeleteMessagePayloadMessageEdgeArgs = {
+  orderBy?: Maybe<Array<MessagesOrderBy>>;
+};
+
+/** All input for the `deleteUserByNodeId` mutation. */
+export type DeleteUserByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `User` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteUser` mutation. */
+export type DeleteUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
+};
+
+/** The output of our delete `User` mutation. */
+export type DeleteUserPayload = {
+   __typename?: 'DeleteUserPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  deletedUserNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** The `User` that was deleted by this mutation. */
+  user?: Maybe<User>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our delete `User` mutation. */
+export type DeleteUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the `deleteUsersChatroomByNodeId` mutation. */
+export type DeleteUsersChatroomByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `UsersChatroom` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteUsersChatroom` mutation. */
+export type DeleteUsersChatroomInput = {
+  chatroomId: Scalars['UUID'];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  userId: Scalars['UUID'];
+};
+
+/** The output of our delete `UsersChatroom` mutation. */
+export type DeleteUsersChatroomPayload = {
+   __typename?: 'DeleteUsersChatroomPayload';
+  /** Reads a single `Chatroom` that is related to this `UsersChatroom`. */
+  chatroom?: Maybe<Chatroom>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  deletedUsersChatroomNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UsersChatroom`. */
+  user?: Maybe<User>;
+  /** The `UsersChatroom` that was deleted by this mutation. */
+  usersChatroom?: Maybe<UsersChatroom>;
+  /** An edge for our `UsersChatroom`. May be used by Relay 1. */
+  usersChatroomEdge?: Maybe<UsersChatroomsEdge>;
+};
+
+
+/** The output of our delete `UsersChatroom` mutation. */
+export type DeleteUsersChatroomPayloadUsersChatroomEdgeArgs = {
+  orderBy?: Maybe<Array<UsersChatroomsOrderBy>>;
+};
+
+export type Message = Node & {
+   __typename?: 'Message';
+  /** Reads a single `Chatroom` that is related to this `Message`. */
+  chatroom?: Maybe<Chatroom>;
+  chatroomId: Scalars['UUID'];
+  content: Scalars['String'];
+  createdAt: Scalars['Datetime'];
+  id: Scalars['UUID'];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  /** Reads a single `User` that is related to this `Message`. */
+  user?: Maybe<User>;
+  userId: Scalars['UUID'];
+};
+
+/** A condition to be used against `Message` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type MessageCondition = {
+  /** Checks for equality with the object’s `chatroomId` field. */
+  chatroomId?: Maybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `content` field. */
+  content?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: Maybe<Scalars['UUID']>;
+};
+
+/** An input for mutations affecting `Message` */
+export type MessageInput = {
+  chatroomId: Scalars['UUID'];
+  content: Scalars['String'];
+  createdAt?: Maybe<Scalars['Datetime']>;
+  id?: Maybe<Scalars['UUID']>;
+  userId: Scalars['UUID'];
+};
+
+/** Represents an update to a `Message`. Fields that are set will be updated. */
+export type MessagePatch = {
+  chatroomId?: Maybe<Scalars['UUID']>;
+  content?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Datetime']>;
+  id?: Maybe<Scalars['UUID']>;
+  userId?: Maybe<Scalars['UUID']>;
+};
+
+/** A connection to a list of `Message` values. */
+export type MessagesConnection = {
+   __typename?: 'MessagesConnection';
+  /** A list of edges which contains the `Message` and cursor to aid in pagination. */
+  edges: Array<MessagesEdge>;
+  /** A list of `Message` objects. */
+  nodes: Array<Message>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Message` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Message` edge in the connection. */
+export type MessagesEdge = {
+   __typename?: 'MessagesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Message` at the end of the edge. */
+  node: Message;
+};
+
+/** Methods to use when ordering `Message`. */
+export enum MessagesOrderBy {
+  ChatroomIdAsc = 'CHATROOM_ID_ASC',
+  ChatroomIdDesc = 'CHATROOM_ID_DESC',
+  ContentAsc = 'CONTENT_ASC',
+  ContentDesc = 'CONTENT_DESC',
+  CreatedAtAsc = 'CREATED_AT_ASC',
+  CreatedAtDesc = 'CREATED_AT_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC'
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type Mutation = {
+   __typename?: 'Mutation';
+  /** Creates a single `Chatroom`. */
+  createChatroom?: Maybe<CreateChatroomPayload>;
+  /** Creates a single `Message`. */
+  createMessage?: Maybe<CreateMessagePayload>;
+  /** Creates a single `User`. */
+  createUser?: Maybe<CreateUserPayload>;
+  /** Creates a single `UsersChatroom`. */
+  createUsersChatroom?: Maybe<CreateUsersChatroomPayload>;
+  /** Deletes a single `Chatroom` using a unique key. */
+  deleteChatroom?: Maybe<DeleteChatroomPayload>;
+  /** Deletes a single `Chatroom` using its globally unique id. */
+  deleteChatroomByNodeId?: Maybe<DeleteChatroomPayload>;
+  /** Deletes a single `Message` using a unique key. */
+  deleteMessage?: Maybe<DeleteMessagePayload>;
+  /** Deletes a single `Message` using its globally unique id. */
+  deleteMessageByNodeId?: Maybe<DeleteMessagePayload>;
+  /** Deletes a single `User` using a unique key. */
+  deleteUser?: Maybe<DeleteUserPayload>;
+  /** Deletes a single `User` using its globally unique id. */
+  deleteUserByNodeId?: Maybe<DeleteUserPayload>;
+  /** Deletes a single `UsersChatroom` using a unique key. */
+  deleteUsersChatroom?: Maybe<DeleteUsersChatroomPayload>;
+  /** Deletes a single `UsersChatroom` using its globally unique id. */
+  deleteUsersChatroomByNodeId?: Maybe<DeleteUsersChatroomPayload>;
+  /** Updates a single `Chatroom` using a unique key and a patch. */
+  updateChatroom?: Maybe<UpdateChatroomPayload>;
+  /** Updates a single `Chatroom` using its globally unique id and a patch. */
+  updateChatroomByNodeId?: Maybe<UpdateChatroomPayload>;
+  /** Updates a single `Message` using a unique key and a patch. */
+  updateMessage?: Maybe<UpdateMessagePayload>;
+  /** Updates a single `Message` using its globally unique id and a patch. */
+  updateMessageByNodeId?: Maybe<UpdateMessagePayload>;
+  /** Updates a single `User` using a unique key and a patch. */
+  updateUser?: Maybe<UpdateUserPayload>;
+  /** Updates a single `User` using its globally unique id and a patch. */
+  updateUserByNodeId?: Maybe<UpdateUserPayload>;
+  /** Updates a single `UsersChatroom` using a unique key and a patch. */
+  updateUsersChatroom?: Maybe<UpdateUsersChatroomPayload>;
+  /** Updates a single `UsersChatroom` using its globally unique id and a patch. */
+  updateUsersChatroomByNodeId?: Maybe<UpdateUsersChatroomPayload>;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateChatroomArgs = {
+  input: CreateChatroomInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateMessageArgs = {
+  input: CreateMessageInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateUsersChatroomArgs = {
+  input: CreateUsersChatroomInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteChatroomArgs = {
+  input: DeleteChatroomInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteChatroomByNodeIdArgs = {
+  input: DeleteChatroomByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteMessageArgs = {
+  input: DeleteMessageInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteMessageByNodeIdArgs = {
+  input: DeleteMessageByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserArgs = {
+  input: DeleteUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserByNodeIdArgs = {
+  input: DeleteUserByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUsersChatroomArgs = {
+  input: DeleteUsersChatroomInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUsersChatroomByNodeIdArgs = {
+  input: DeleteUsersChatroomByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateChatroomArgs = {
+  input: UpdateChatroomInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateChatroomByNodeIdArgs = {
+  input: UpdateChatroomByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateMessageArgs = {
+  input: UpdateMessageInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateMessageByNodeIdArgs = {
+  input: UpdateMessageByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserByNodeIdArgs = {
+  input: UpdateUserByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUsersChatroomArgs = {
+  input: UpdateUsersChatroomInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUsersChatroomByNodeIdArgs = {
+  input: UpdateUsersChatroomByNodeIdInput;
 };
 
 /** An object with a globally unique `ID`. */
@@ -19,9 +689,32 @@ export type Node = {
   nodeId: Scalars['ID'];
 };
 
+/** Information about pagination in a connection. */
+export type PageInfo = {
+   __typename?: 'PageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['Cursor']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['Cursor']>;
+};
+
 /** The root query type which gives access points into the data universe. */
 export type Query = Node & {
    __typename?: 'Query';
+  chatroom?: Maybe<Chatroom>;
+  /** Reads a single `Chatroom` using its globally unique `ID`. */
+  chatroomByNodeId?: Maybe<Chatroom>;
+  /** Reads and enables pagination through a set of `Chatroom`. */
+  chatrooms?: Maybe<ChatroomsConnection>;
+  message?: Maybe<Message>;
+  /** Reads a single `Message` using its globally unique `ID`. */
+  messageByNodeId?: Maybe<Message>;
+  /** Reads and enables pagination through a set of `Message`. */
+  messages?: Maybe<MessagesConnection>;
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
@@ -31,6 +724,64 @@ export type Query = Node & {
    * which can only query top level fields if they are in a particular form.
    */
   query: Query;
+  user?: Maybe<User>;
+  /** Reads a single `User` using its globally unique `ID`. */
+  userByNodeId?: Maybe<User>;
+  /** Reads and enables pagination through a set of `User`. */
+  users?: Maybe<UsersConnection>;
+  usersChatroom?: Maybe<UsersChatroom>;
+  /** Reads a single `UsersChatroom` using its globally unique `ID`. */
+  usersChatroomByNodeId?: Maybe<UsersChatroom>;
+  /** Reads and enables pagination through a set of `UsersChatroom`. */
+  usersChatrooms?: Maybe<UsersChatroomsConnection>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryChatroomArgs = {
+  id: Scalars['UUID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryChatroomByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryChatroomsArgs = {
+  after?: Maybe<Scalars['Cursor']>;
+  before?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<ChatroomCondition>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<ChatroomsOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryMessageArgs = {
+  id: Scalars['UUID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryMessageByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryMessagesArgs = {
+  after?: Maybe<Scalars['Cursor']>;
+  before?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<MessageCondition>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<MessagesOrderBy>>;
 };
 
 
@@ -39,23 +790,420 @@ export type QueryNodeArgs = {
   nodeId: Scalars['ID'];
 };
 
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserArgs = {
+  id: Scalars['UUID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUsersArgs = {
+  after?: Maybe<Scalars['Cursor']>;
+  before?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<UserCondition>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUsersChatroomArgs = {
+  chatroomId: Scalars['UUID'];
+  userId: Scalars['UUID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUsersChatroomByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUsersChatroomsArgs = {
+  after?: Maybe<Scalars['Cursor']>;
+  before?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<UsersChatroomCondition>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<UsersChatroomsOrderBy>>;
+};
+
+/** All input for the `updateChatroomByNodeId` mutation. */
+export type UpdateChatroomByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Chatroom` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `Chatroom` being updated. */
+  patch: ChatroomPatch;
+};
+
+/** All input for the `updateChatroom` mutation. */
+export type UpdateChatroomInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `Chatroom` being updated. */
+  patch: ChatroomPatch;
+};
+
+/** The output of our update `Chatroom` mutation. */
+export type UpdateChatroomPayload = {
+   __typename?: 'UpdateChatroomPayload';
+  /** The `Chatroom` that was updated by this mutation. */
+  chatroom?: Maybe<Chatroom>;
+  /** An edge for our `Chatroom`. May be used by Relay 1. */
+  chatroomEdge?: Maybe<ChatroomsEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `Chatroom` mutation. */
+export type UpdateChatroomPayloadChatroomEdgeArgs = {
+  orderBy?: Maybe<Array<ChatroomsOrderBy>>;
+};
+
+/** All input for the `updateMessageByNodeId` mutation. */
+export type UpdateMessageByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Message` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `Message` being updated. */
+  patch: MessagePatch;
+};
+
+/** All input for the `updateMessage` mutation. */
+export type UpdateMessageInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `Message` being updated. */
+  patch: MessagePatch;
+};
+
+/** The output of our update `Message` mutation. */
+export type UpdateMessagePayload = {
+   __typename?: 'UpdateMessagePayload';
+  /** Reads a single `Chatroom` that is related to this `Message`. */
+  chatroom?: Maybe<Chatroom>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Message` that was updated by this mutation. */
+  message?: Maybe<Message>;
+  /** An edge for our `Message`. May be used by Relay 1. */
+  messageEdge?: Maybe<MessagesEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `Message`. */
+  user?: Maybe<User>;
+};
+
+
+/** The output of our update `Message` mutation. */
+export type UpdateMessagePayloadMessageEdgeArgs = {
+  orderBy?: Maybe<Array<MessagesOrderBy>>;
+};
+
+/** All input for the `updateUserByNodeId` mutation. */
+export type UpdateUserByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `User` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `User` being updated. */
+  patch: UserPatch;
+};
+
+/** All input for the `updateUser` mutation. */
+export type UpdateUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `User` being updated. */
+  patch: UserPatch;
+};
+
+/** The output of our update `User` mutation. */
+export type UpdateUserPayload = {
+   __typename?: 'UpdateUserPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** The `User` that was updated by this mutation. */
+  user?: Maybe<User>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our update `User` mutation. */
+export type UpdateUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the `updateUsersChatroomByNodeId` mutation. */
+export type UpdateUsersChatroomByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `UsersChatroom` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `UsersChatroom` being updated. */
+  patch: UsersChatroomPatch;
+};
+
+/** All input for the `updateUsersChatroom` mutation. */
+export type UpdateUsersChatroomInput = {
+  chatroomId: Scalars['UUID'];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `UsersChatroom` being updated. */
+  patch: UsersChatroomPatch;
+  userId: Scalars['UUID'];
+};
+
+/** The output of our update `UsersChatroom` mutation. */
+export type UpdateUsersChatroomPayload = {
+   __typename?: 'UpdateUsersChatroomPayload';
+  /** Reads a single `Chatroom` that is related to this `UsersChatroom`. */
+  chatroom?: Maybe<Chatroom>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UsersChatroom`. */
+  user?: Maybe<User>;
+  /** The `UsersChatroom` that was updated by this mutation. */
+  usersChatroom?: Maybe<UsersChatroom>;
+  /** An edge for our `UsersChatroom`. May be used by Relay 1. */
+  usersChatroomEdge?: Maybe<UsersChatroomsEdge>;
+};
+
+
+/** The output of our update `UsersChatroom` mutation. */
+export type UpdateUsersChatroomPayloadUsersChatroomEdgeArgs = {
+  orderBy?: Maybe<Array<UsersChatroomsOrderBy>>;
+};
+
+export type User = Node & {
+   __typename?: 'User';
+  id: Scalars['UUID'];
+  /** Reads and enables pagination through a set of `Message`. */
+  messages: MessagesConnection;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  username: Scalars['String'];
+  /** Reads and enables pagination through a set of `UsersChatroom`. */
+  usersChatrooms: UsersChatroomsConnection;
+};
+
+
+export type UserMessagesArgs = {
+  after?: Maybe<Scalars['Cursor']>;
+  before?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<MessageCondition>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<MessagesOrderBy>>;
+};
+
+
+export type UserUsersChatroomsArgs = {
+  after?: Maybe<Scalars['Cursor']>;
+  before?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<UsersChatroomCondition>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<UsersChatroomsOrderBy>>;
+};
+
+/** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type UserCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `username` field. */
+  username?: Maybe<Scalars['String']>;
+};
+
+/** An input for mutations affecting `User` */
+export type UserInput = {
+  id?: Maybe<Scalars['UUID']>;
+  username: Scalars['String'];
+};
+
+/** Represents an update to a `User`. Fields that are set will be updated. */
+export type UserPatch = {
+  id?: Maybe<Scalars['UUID']>;
+  username?: Maybe<Scalars['String']>;
+};
+
+export type UsersChatroom = Node & {
+   __typename?: 'UsersChatroom';
+  /** Reads a single `Chatroom` that is related to this `UsersChatroom`. */
+  chatroom?: Maybe<Chatroom>;
+  chatroomId: Scalars['UUID'];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  /** Reads a single `User` that is related to this `UsersChatroom`. */
+  user?: Maybe<User>;
+  userId: Scalars['UUID'];
+};
+
+/**
+ * A condition to be used against `UsersChatroom` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type UsersChatroomCondition = {
+  /** Checks for equality with the object’s `chatroomId` field. */
+  chatroomId?: Maybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: Maybe<Scalars['UUID']>;
+};
+
+/** An input for mutations affecting `UsersChatroom` */
+export type UsersChatroomInput = {
+  chatroomId: Scalars['UUID'];
+  userId: Scalars['UUID'];
+};
+
+/** Represents an update to a `UsersChatroom`. Fields that are set will be updated. */
+export type UsersChatroomPatch = {
+  chatroomId?: Maybe<Scalars['UUID']>;
+  userId?: Maybe<Scalars['UUID']>;
+};
+
+/** A connection to a list of `UsersChatroom` values. */
+export type UsersChatroomsConnection = {
+   __typename?: 'UsersChatroomsConnection';
+  /** A list of edges which contains the `UsersChatroom` and cursor to aid in pagination. */
+  edges: Array<UsersChatroomsEdge>;
+  /** A list of `UsersChatroom` objects. */
+  nodes: Array<UsersChatroom>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `UsersChatroom` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `UsersChatroom` edge in the connection. */
+export type UsersChatroomsEdge = {
+   __typename?: 'UsersChatroomsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `UsersChatroom` at the end of the edge. */
+  node: UsersChatroom;
+};
+
+/** Methods to use when ordering `UsersChatroom`. */
+export enum UsersChatroomsOrderBy {
+  ChatroomIdAsc = 'CHATROOM_ID_ASC',
+  ChatroomIdDesc = 'CHATROOM_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC'
+}
+
+/** A connection to a list of `User` values. */
+export type UsersConnection = {
+   __typename?: 'UsersConnection';
+  /** A list of edges which contains the `User` and cursor to aid in pagination. */
+  edges: Array<UsersEdge>;
+  /** A list of `User` objects. */
+  nodes: Array<User>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `User` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `User` edge in the connection. */
+export type UsersEdge = {
+   __typename?: 'UsersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `User` at the end of the edge. */
+  node: User;
+};
+
+/** Methods to use when ordering `User`. */
+export enum UsersOrderBy {
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  UsernameAsc = 'USERNAME_ASC',
+  UsernameDesc = 'USERNAME_DESC'
+}
+
+
 export type SampleQueryVariables = {};
 
 
 export type SampleQuery = (
   { __typename?: 'Query' }
-  & { query: (
-    { __typename?: 'Query' }
-    & Pick<Query, 'nodeId'>
-  ) }
+  & Pick<Query, 'nodeId'>
 );
 
 
 export const SampleDocument = gql`
     query Sample {
-  query {
-    nodeId
-  }
+  nodeId
 }
     `;
 

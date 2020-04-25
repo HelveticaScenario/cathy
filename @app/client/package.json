@@ -12,6 +12,8 @@
         "@apollo/react-common": "^3.1.4",
         "@apollo/react-hooks": "^3.1.5",
         "@apollo/react-ssr": "^3.1.5",
+        "@auth0/auth0-spa-js": "^1.7.0",
+        "@styled-system/css": "^5.1.5",
         "@types/rebass": "^4.0.5",
         "@types/theme-ui": "^0.3.1",
         "apollo-boost": "^0.4.7",
@@ -24,8 +26,7 @@
         "react-dev": "^0.0.1",
         "react-dom": "^16.13.1",
         "rebass": "^4.0.7",
-        "theme-ui": "^0.3.1",
-        "@styled-system/css": "^5.1.5"
+        "theme-ui": "^0.3.1"
     },
     "devDependencies": {
         "@graphql-codegen/add": "^1.13.1",

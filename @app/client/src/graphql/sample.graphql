@@ -1,5 +1,3 @@
 query Sample {
-	query {
-    nodeId
-  }
+	nodeId
 }
