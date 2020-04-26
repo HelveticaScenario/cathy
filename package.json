@@ -2,9 +2,6 @@
   "name": "root",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": ">= 12.0.0 < 13.0.0"
-  },
   "scripts": {
     "setup": "yarn && yarn node ./scripts/setup.js",
     "watch": "concurrently --kill-others --names 'MIGRATE,LERNA' --prefix '({name})' --prefix-colors 'yellow.bold,cyan.bold,greenBright.bold' 'yarn db-watch' 'lerna run watch --stream'",
@@ -34,7 +31,9 @@
     "lerna": "^3.20.2",
     "now": "^18.0.0",
     "pg": "^6.0.0",
-    "postgraphile": "^4.6.0"
+    "postgraphile": "^4.6.0",
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3"
   },
   "dependencies": {}
 }

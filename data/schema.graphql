@@ -1,161 +1,3 @@
-type Chatroom implements Node {
-  id: UUID!
-
-  """Reads and enables pagination through a set of `Message`."""
-  messages(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: MessageCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `Message`."""
-    orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): MessagesConnection!
-
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-
-  """Reads and enables pagination through a set of `UsersChatroom`."""
-  usersChatrooms(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: UsersChatroomCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `UsersChatroom`."""
-    orderBy: [UsersChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersChatroomsConnection!
-}
-
-"""
-A condition to be used against `Chatroom` object types. All fields are tested
-for equality and combined with a logical ‘and.’
-"""
-input ChatroomCondition {
-  """Checks for equality with the object’s `id` field."""
-  id: UUID
-}
-
-"""An input for mutations affecting `Chatroom`"""
-input ChatroomInput {
-  id: UUID
-}
-
-"""
-Represents an update to a `Chatroom`. Fields that are set will be updated.
-"""
-input ChatroomPatch {
-  id: UUID
-}
-
-"""A connection to a list of `Chatroom` values."""
-type ChatroomsConnection {
-  """
-  A list of edges which contains the `Chatroom` and cursor to aid in pagination.
-  """
-  edges: [ChatroomsEdge!]!
-
-  """A list of `Chatroom` objects."""
-  nodes: [Chatroom!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Chatroom` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Chatroom` edge in the connection."""
-type ChatroomsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Chatroom` at the end of the edge."""
-  node: Chatroom!
-}
-
-"""Methods to use when ordering `Chatroom`."""
-enum ChatroomsOrderBy {
-  ID_ASC
-  ID_DESC
-  NATURAL
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""All input for the create `Chatroom` mutation."""
-input CreateChatroomInput {
-  """The `Chatroom` to be created by this mutation."""
-  chatroom: ChatroomInput!
-
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-}
-
-"""The output of our create `Chatroom` mutation."""
-type CreateChatroomPayload {
-  """The `Chatroom` that was created by this mutation."""
-  chatroom: Chatroom
-
-  """An edge for our `Chatroom`. May be used by Relay 1."""
-  chatroomEdge(
-    """The method to use when ordering `Chatroom`."""
-    orderBy: [ChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ChatroomsEdge
-
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-}
-
 """All input for the create `Message` mutation."""
 input CreateMessageInput {
   """
@@ -170,9 +12,6 @@ input CreateMessageInput {
 
 """The output of our create `Message` mutation."""
 type CreateMessagePayload {
-  """Reads a single `Chatroom` that is related to this `Message`."""
-  chatroom: Chatroom
-
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
@@ -192,85 +31,6 @@ type CreateMessagePayload {
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
-
-  """Reads a single `User` that is related to this `Message`."""
-  user: User
-}
-
-"""All input for the create `User` mutation."""
-input CreateUserInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `User` to be created by this mutation."""
-  user: UserInput!
-}
-
-"""The output of our create `User` mutation."""
-type CreateUserPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """The `User` that was created by this mutation."""
-  user: User
-
-  """An edge for our `User`. May be used by Relay 1."""
-  userEdge(
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersEdge
-}
-
-"""All input for the create `UsersChatroom` mutation."""
-input CreateUsersChatroomInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `UsersChatroom` to be created by this mutation."""
-  usersChatroom: UsersChatroomInput!
-}
-
-"""The output of our create `UsersChatroom` mutation."""
-type CreateUsersChatroomPayload {
-  """Reads a single `Chatroom` that is related to this `UsersChatroom`."""
-  chatroom: Chatroom
-
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `User` that is related to this `UsersChatroom`."""
-  user: User
-
-  """The `UsersChatroom` that was created by this mutation."""
-  usersChatroom: UsersChatroom
-
-  """An edge for our `UsersChatroom`. May be used by Relay 1."""
-  usersChatroomEdge(
-    """The method to use when ordering `UsersChatroom`."""
-    orderBy: [UsersChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersChatroomsEdge
 }
 
 """A location in a connection that can be used for resuming pagination."""
@@ -281,54 +41,6 @@ A point in time as described by the [ISO
 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
 """
 scalar Datetime
-
-"""All input for the `deleteChatroomByNodeId` mutation."""
-input DeleteChatroomByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Chatroom` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteChatroom` mutation."""
-input DeleteChatroomInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: UUID!
-}
-
-"""The output of our delete `Chatroom` mutation."""
-type DeleteChatroomPayload {
-  """The `Chatroom` that was deleted by this mutation."""
-  chatroom: Chatroom
-
-  """An edge for our `Chatroom`. May be used by Relay 1."""
-  chatroomEdge(
-    """The method to use when ordering `Chatroom`."""
-    orderBy: [ChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ChatroomsEdge
-
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-  deletedChatroomNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-}
 
 """All input for the `deleteMessageByNodeId` mutation."""
 input DeleteMessageByNodeIdInput {
@@ -356,9 +68,6 @@ input DeleteMessageInput {
 
 """The output of our delete `Message` mutation."""
 type DeleteMessagePayload {
-  """Reads a single `Chatroom` that is related to this `Message`."""
-  chatroom: Chatroom
-
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
@@ -379,119 +88,18 @@ type DeleteMessagePayload {
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
-
-  """Reads a single `User` that is related to this `Message`."""
-  user: User
 }
 
-"""All input for the `deleteUserByNodeId` mutation."""
-input DeleteUserByNodeIdInput {
+type ListenPayload {
   """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `User` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteUser` mutation."""
-input DeleteUserInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: UUID!
-}
-
-"""The output of our delete `User` mutation."""
-type DeleteUserPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-  deletedUserNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
+  Our root query field type. Allows us to run any query from our subscription payload.
   """
   query: Query
-
-  """The `User` that was deleted by this mutation."""
-  user: User
-
-  """An edge for our `User`. May be used by Relay 1."""
-  userEdge(
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersEdge
-}
-
-"""All input for the `deleteUsersChatroomByNodeId` mutation."""
-input DeleteUsersChatroomByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `UsersChatroom` to be deleted.
-  """
-  nodeId: ID!
-}
-
-"""All input for the `deleteUsersChatroom` mutation."""
-input DeleteUsersChatroomInput {
-  chatroomId: UUID!
-
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  userId: UUID!
-}
-
-"""The output of our delete `UsersChatroom` mutation."""
-type DeleteUsersChatroomPayload {
-  """Reads a single `Chatroom` that is related to this `UsersChatroom`."""
-  chatroom: Chatroom
-
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-  deletedUsersChatroomNodeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `User` that is related to this `UsersChatroom`."""
-  user: User
-
-  """The `UsersChatroom` that was deleted by this mutation."""
-  usersChatroom: UsersChatroom
-
-  """An edge for our `UsersChatroom`. May be used by Relay 1."""
-  usersChatroomEdge(
-    """The method to use when ordering `UsersChatroom`."""
-    orderBy: [UsersChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersChatroomsEdge
+  relatedNode: Node
+  relatedNodeId: ID
 }
 
 type Message implements Node {
-  """Reads a single `Chatroom` that is related to this `Message`."""
-  chatroom: Chatroom
-  chatroomId: UUID!
   content: String!
   createdAt: Datetime!
   id: UUID!
@@ -500,19 +108,12 @@ type Message implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
-
-  """Reads a single `User` that is related to this `Message`."""
-  user: User
-  userId: UUID!
 }
 
 """
 A condition to be used against `Message` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
 input MessageCondition {
-  """Checks for equality with the object’s `chatroomId` field."""
-  chatroomId: UUID
-
   """Checks for equality with the object’s `content` field."""
   content: String
 
@@ -521,29 +122,22 @@ input MessageCondition {
 
   """Checks for equality with the object’s `id` field."""
   id: UUID
-
-  """Checks for equality with the object’s `userId` field."""
-  userId: UUID
 }
 
 """An input for mutations affecting `Message`"""
 input MessageInput {
-  chatroomId: UUID!
   content: String!
   createdAt: Datetime
   id: UUID
-  userId: UUID!
 }
 
 """
 Represents an update to a `Message`. Fields that are set will be updated.
 """
 input MessagePatch {
-  chatroomId: UUID
   content: String
   createdAt: Datetime
   id: UUID
-  userId: UUID
 }
 
 """A connection to a list of `Message` values."""
@@ -574,8 +168,6 @@ type MessagesEdge {
 
 """Methods to use when ordering `Message`."""
 enum MessagesOrderBy {
-  CHATROOM_ID_ASC
-  CHATROOM_ID_DESC
   CONTENT_ASC
   CONTENT_DESC
   CREATED_AT_ASC
@@ -585,22 +177,12 @@ enum MessagesOrderBy {
   NATURAL
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
-  USER_ID_ASC
-  USER_ID_DESC
 }
 
 """
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
-  """Creates a single `Chatroom`."""
-  createChatroom(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateChatroomInput!
-  ): CreateChatroomPayload
-
   """Creates a single `Message`."""
   createMessage(
     """
@@ -608,38 +190,6 @@ type Mutation {
     """
     input: CreateMessageInput!
   ): CreateMessagePayload
-
-  """Creates a single `User`."""
-  createUser(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateUserInput!
-  ): CreateUserPayload
-
-  """Creates a single `UsersChatroom`."""
-  createUsersChatroom(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateUsersChatroomInput!
-  ): CreateUsersChatroomPayload
-
-  """Deletes a single `Chatroom` using a unique key."""
-  deleteChatroom(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteChatroomInput!
-  ): DeleteChatroomPayload
-
-  """Deletes a single `Chatroom` using its globally unique id."""
-  deleteChatroomByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteChatroomByNodeIdInput!
-  ): DeleteChatroomPayload
 
   """Deletes a single `Message` using a unique key."""
   deleteMessage(
@@ -657,54 +207,6 @@ type Mutation {
     input: DeleteMessageByNodeIdInput!
   ): DeleteMessagePayload
 
-  """Deletes a single `User` using a unique key."""
-  deleteUser(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteUserInput!
-  ): DeleteUserPayload
-
-  """Deletes a single `User` using its globally unique id."""
-  deleteUserByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteUserByNodeIdInput!
-  ): DeleteUserPayload
-
-  """Deletes a single `UsersChatroom` using a unique key."""
-  deleteUsersChatroom(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteUsersChatroomInput!
-  ): DeleteUsersChatroomPayload
-
-  """Deletes a single `UsersChatroom` using its globally unique id."""
-  deleteUsersChatroomByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteUsersChatroomByNodeIdInput!
-  ): DeleteUsersChatroomPayload
-
-  """Updates a single `Chatroom` using a unique key and a patch."""
-  updateChatroom(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateChatroomInput!
-  ): UpdateChatroomPayload
-
-  """Updates a single `Chatroom` using its globally unique id and a patch."""
-  updateChatroomByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateChatroomByNodeIdInput!
-  ): UpdateChatroomPayload
-
   """Updates a single `Message` using a unique key and a patch."""
   updateMessage(
     """
@@ -720,40 +222,6 @@ type Mutation {
     """
     input: UpdateMessageByNodeIdInput!
   ): UpdateMessagePayload
-
-  """Updates a single `User` using a unique key and a patch."""
-  updateUser(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateUserInput!
-  ): UpdateUserPayload
-
-  """Updates a single `User` using its globally unique id and a patch."""
-  updateUserByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateUserByNodeIdInput!
-  ): UpdateUserPayload
-
-  """Updates a single `UsersChatroom` using a unique key and a patch."""
-  updateUsersChatroom(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateUsersChatroomInput!
-  ): UpdateUsersChatroomPayload
-
-  """
-  Updates a single `UsersChatroom` using its globally unique id and a patch.
-  """
-  updateUsersChatroomByNodeId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateUsersChatroomByNodeIdInput!
-  ): UpdateUsersChatroomPayload
 }
 
 """An object with a globally unique `ID`."""
@@ -781,42 +249,6 @@ type PageInfo {
 
 """The root query type which gives access points into the data universe."""
 type Query implements Node {
-  chatroom(id: UUID!): Chatroom
-
-  """Reads a single `Chatroom` using its globally unique `ID`."""
-  chatroomByNodeId(
-    """The globally unique `ID` to be used in selecting a single `Chatroom`."""
-    nodeId: ID!
-  ): Chatroom
-
-  """Reads and enables pagination through a set of `Chatroom`."""
-  chatrooms(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ChatroomCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `Chatroom`."""
-    orderBy: [ChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ChatroomsConnection
   message(id: UUID!): Message
 
   """Reads a single `Message` using its globally unique `ID`."""
@@ -870,137 +302,13 @@ type Query implements Node {
   which can only query top level fields if they are in a particular form.
   """
   query: Query!
-  user(id: UUID!): User
-
-  """Reads a single `User` using its globally unique `ID`."""
-  userByNodeId(
-    """The globally unique `ID` to be used in selecting a single `User`."""
-    nodeId: ID!
-  ): User
-
-  """Reads and enables pagination through a set of `User`."""
-  users(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: UserCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersConnection
-  usersChatroom(chatroomId: UUID!, userId: UUID!): UsersChatroom
-
-  """Reads a single `UsersChatroom` using its globally unique `ID`."""
-  usersChatroomByNodeId(
-    """
-    The globally unique `ID` to be used in selecting a single `UsersChatroom`.
-    """
-    nodeId: ID!
-  ): UsersChatroom
-
-  """Reads and enables pagination through a set of `UsersChatroom`."""
-  usersChatrooms(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: UsersChatroomCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `UsersChatroom`."""
-    orderBy: [UsersChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersChatroomsConnection
 }
 
-"""All input for the `updateChatroomByNodeId` mutation."""
-input UpdateChatroomByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Chatroom` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `Chatroom` being updated.
-  """
-  patch: ChatroomPatch!
-}
-
-"""All input for the `updateChatroom` mutation."""
-input UpdateChatroomInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: UUID!
-
-  """
-  An object where the defined keys will be set on the `Chatroom` being updated.
-  """
-  patch: ChatroomPatch!
-}
-
-"""The output of our update `Chatroom` mutation."""
-type UpdateChatroomPayload {
-  """The `Chatroom` that was updated by this mutation."""
-  chatroom: Chatroom
-
-  """An edge for our `Chatroom`. May be used by Relay 1."""
-  chatroomEdge(
-    """The method to use when ordering `Chatroom`."""
-    orderBy: [ChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ChatroomsEdge
-
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
+"""
+The root subscription type: contains realtime events you can subscribe to with the `subscription` operation.
+"""
+type Subscription {
+  listen(topic: String!): ListenPayload!
 }
 
 """All input for the `updateMessageByNodeId` mutation."""
@@ -1039,9 +347,6 @@ input UpdateMessageInput {
 
 """The output of our update `Message` mutation."""
 type UpdateMessagePayload {
-  """Reads a single `Chatroom` that is related to this `Message`."""
-  chatroom: Chatroom
-
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
@@ -1061,337 +366,6 @@ type UpdateMessagePayload {
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
-
-  """Reads a single `User` that is related to this `Message`."""
-  user: User
-}
-
-"""All input for the `updateUserByNodeId` mutation."""
-input UpdateUserByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `User` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `User` being updated.
-  """
-  patch: UserPatch!
-}
-
-"""All input for the `updateUser` mutation."""
-input UpdateUserInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  id: UUID!
-
-  """
-  An object where the defined keys will be set on the `User` being updated.
-  """
-  patch: UserPatch!
-}
-
-"""The output of our update `User` mutation."""
-type UpdateUserPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """The `User` that was updated by this mutation."""
-  user: User
-
-  """An edge for our `User`. May be used by Relay 1."""
-  userEdge(
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersEdge
-}
-
-"""All input for the `updateUsersChatroomByNodeId` mutation."""
-input UpdateUsersChatroomByNodeIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `UsersChatroom` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `UsersChatroom` being updated.
-  """
-  patch: UsersChatroomPatch!
-}
-
-"""All input for the `updateUsersChatroom` mutation."""
-input UpdateUsersChatroomInput {
-  chatroomId: UUID!
-
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `UsersChatroom` being updated.
-  """
-  patch: UsersChatroomPatch!
-  userId: UUID!
-}
-
-"""The output of our update `UsersChatroom` mutation."""
-type UpdateUsersChatroomPayload {
-  """Reads a single `Chatroom` that is related to this `UsersChatroom`."""
-  chatroom: Chatroom
-
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `User` that is related to this `UsersChatroom`."""
-  user: User
-
-  """The `UsersChatroom` that was updated by this mutation."""
-  usersChatroom: UsersChatroom
-
-  """An edge for our `UsersChatroom`. May be used by Relay 1."""
-  usersChatroomEdge(
-    """The method to use when ordering `UsersChatroom`."""
-    orderBy: [UsersChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersChatroomsEdge
-}
-
-type User implements Node {
-  id: UUID!
-
-  """Reads and enables pagination through a set of `Message`."""
-  messages(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: MessageCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `Message`."""
-    orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): MessagesConnection!
-
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  username: String!
-
-  """Reads and enables pagination through a set of `UsersChatroom`."""
-  usersChatrooms(
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: UsersChatroomCondition
-
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """The method to use when ordering `UsersChatroom`."""
-    orderBy: [UsersChatroomsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersChatroomsConnection!
-}
-
-"""
-A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input UserCondition {
-  """Checks for equality with the object’s `id` field."""
-  id: UUID
-
-  """Checks for equality with the object’s `username` field."""
-  username: String
-}
-
-"""An input for mutations affecting `User`"""
-input UserInput {
-  id: UUID
-  username: String!
-}
-
-"""Represents an update to a `User`. Fields that are set will be updated."""
-input UserPatch {
-  id: UUID
-  username: String
-}
-
-type UsersChatroom implements Node {
-  """Reads a single `Chatroom` that is related to this `UsersChatroom`."""
-  chatroom: Chatroom
-  chatroomId: UUID!
-
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-
-  """Reads a single `User` that is related to this `UsersChatroom`."""
-  user: User
-  userId: UUID!
-}
-
-"""
-A condition to be used against `UsersChatroom` object types. All fields are
-tested for equality and combined with a logical ‘and.’
-"""
-input UsersChatroomCondition {
-  """Checks for equality with the object’s `chatroomId` field."""
-  chatroomId: UUID
-
-  """Checks for equality with the object’s `userId` field."""
-  userId: UUID
-}
-
-"""An input for mutations affecting `UsersChatroom`"""
-input UsersChatroomInput {
-  chatroomId: UUID!
-  userId: UUID!
-}
-
-"""
-Represents an update to a `UsersChatroom`. Fields that are set will be updated.
-"""
-input UsersChatroomPatch {
-  chatroomId: UUID
-  userId: UUID
-}
-
-"""A connection to a list of `UsersChatroom` values."""
-type UsersChatroomsConnection {
-  """
-  A list of edges which contains the `UsersChatroom` and cursor to aid in pagination.
-  """
-  edges: [UsersChatroomsEdge!]!
-
-  """A list of `UsersChatroom` objects."""
-  nodes: [UsersChatroom!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `UsersChatroom` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `UsersChatroom` edge in the connection."""
-type UsersChatroomsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `UsersChatroom` at the end of the edge."""
-  node: UsersChatroom!
-}
-
-"""Methods to use when ordering `UsersChatroom`."""
-enum UsersChatroomsOrderBy {
-  CHATROOM_ID_ASC
-  CHATROOM_ID_DESC
-  NATURAL
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-  USER_ID_ASC
-  USER_ID_DESC
-}
-
-"""A connection to a list of `User` values."""
-type UsersConnection {
-  """
-  A list of edges which contains the `User` and cursor to aid in pagination.
-  """
-  edges: [UsersEdge!]!
-
-  """A list of `User` objects."""
-  nodes: [User!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `User` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `User` edge in the connection."""
-type UsersEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `User` at the end of the edge."""
-  node: User!
-}
-
-"""Methods to use when ordering `User`."""
-enum UsersOrderBy {
-  ID_ASC
-  ID_DESC
-  NATURAL
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-  USERNAME_ASC
-  USERNAME_DESC
 }
 
 """

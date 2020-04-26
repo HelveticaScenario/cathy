@@ -1,0 +1,9 @@
+.message__meta {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.message__content {
+  font-size: 14px;
+  padding-left: 12px;
+}

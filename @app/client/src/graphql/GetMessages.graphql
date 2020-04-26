@@ -1,0 +1,13 @@
+query GetMessages($limit: Int, $cursor: Cursor) {
+	messages(orderBy: CREATED_AT_ASC, first: $limit, after: $cursor) {
+		edges {
+			cursor
+			node {
+				content
+				createdAt
+				id
+				nodeId
+			}
+		}
+	}
+}

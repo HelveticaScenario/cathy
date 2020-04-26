@@ -1,0 +1,10 @@
+mutation CreateMessage($content: String!) {
+	createMessage(input: { message: { content: $content } }) {
+		message {
+			nodeId
+			content
+			createdAt
+			id
+		}
+	}
+}

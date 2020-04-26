@@ -1,0 +1,14 @@
+subscription SubscribeToNewMessages {
+	listen(topic: "new_message") {
+		relatedNodeId
+		relatedNode {
+			nodeId
+			... on Message {
+				id
+				content
+				createdAt
+				nodeId
+			}
+		}
+	}
+}

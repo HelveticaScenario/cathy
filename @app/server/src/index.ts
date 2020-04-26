@@ -1,9 +1,13 @@
 import './config/env'
 import express from 'express'
+
+import { postgraphile, PostGraphileOptions, makePluginHook } from 'postgraphile'
 import PgSimplifyInflectorPlugin from '@graphile-contrib/pg-simplify-inflector'
-import { postgraphile, PostGraphileOptions } from 'postgraphile'
+import PgPubsub from '@graphile/pg-pubsub'
 
 const app = express()
+
+const pluginHook = makePluginHook([PgPubsub])
 
 const isDev = (process.env.NODE_ENV || 'development') === 'development'
 
@@ -18,6 +22,9 @@ const pgConfig = {
 // Your PostGraphile config:
 // https://www.graphile.org/postgraphile/usage-library/#api-postgraphilepgconfig-schemaname-options
 const postgraphileOptions: PostGraphileOptions = {
+	pluginHook,
+	subscriptions: true,
+	simpleSubscriptions: true,
 	enableCors: true,
 	dynamicJson: true,
 	graphiql: true,

@@ -4,6 +4,8 @@ import { Auth0Provider } from '../lib/react-auth0-spa'
 import theme from '../../theme'
 import { useRouter } from 'next/router'
 
+import './style-index.css';
+
 export default function MyApp({ Component, pageProps }: AppProps) {
 	const router = useRouter()
 	// router.repl
