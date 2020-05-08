@@ -1,5 +1,5 @@
-export const stringifyCyclical = (val: any) => {
-	const cache: any[] = []
+export const stringifyCyclical = (val: unknown) => {
+	const cache: unknown[] = []
 	return JSON.stringify(
 		val,
 		function (key, value) {
@@ -16,3 +16,16 @@ export const stringifyCyclical = (val: any) => {
 		2
 	)
 }
+
+export function hasKey<K extends string>(
+	k: K,
+	o: {}
+): o is { [_ in K]: unknown } {
+	return typeof o === 'object' && k in o
+}
+
+export type UnpackedPromise<T extends Promise<unknown>> = T extends Promise<
+	infer U
+>
+	? U
+	: never

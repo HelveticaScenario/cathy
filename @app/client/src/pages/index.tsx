@@ -1,9 +1,6 @@
-import { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { getDataFromTree } from '@apollo/react-ssr'
 import withApollo from '../lib/withApollo'
-// import SharedLayout from '../components'
-// import { useAuth } from 'react-use-auth'
-// import { stringifyCyclical } from '../lib/utils'
 import {
 	useGetMessagesQuery,
 	SubscribeToNewMessagesDocument,
@@ -11,15 +8,8 @@ import {
 	SubscribeToNewMessagesSubscription,
 	useCreateMessageMutation,
 } from '../gen/graphql'
-// import withAuth from '../lib/withAuth'
-// import { useAuth0 } from '../lib/react-auth0-spa'
-
-function orEmpty<T>(arr?: T[]): T[] {
-	if (!arr) {
-		return []
-	}
-	return arr
-}
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 function last<T>(arr: T[]): T | undefined {
 	if (arr.length === 0) {
@@ -58,56 +48,56 @@ function mapIterable<T, R>(
 	}
 }
 
-interface Message {
-	content?: string
-	createdAt?: string
-	id?: string
-	nodeId?: string
-}
-
 interface IndexPageProps {}
 const IndexPage: FC<IndexPageProps> = ({}) => {
+	const router = useRouter()
 	const [content, updateContent] = useState('')
-	const { data, loading, subscribeToMore, fetchMore } = useGetMessagesQuery({
+	const { loading, data, subscribeToMore, fetchMore } = useGetMessagesQuery({
 		variables: {
 			limit: 3,
 		},
 	})
-	const [createMessage, createMessageResult] = useCreateMessageMutation()
-	useEffect(() => {
-		subscribeToMore<
-			SubscribeToNewMessagesSubscription,
-			SubscribeToNewMessagesSubscriptionVariables
-		>({
-			document: SubscribeToNewMessagesDocument,
-			updateQuery: (previousResults, { subscriptionData, variables }) => {
-				const previousMessages = previousResults.messages
-				const message = subscriptionData.data.listen.relatedNode
+	const [createMessage] = useCreateMessageMutation()
+	useEffect(
+		() =>
+			subscribeToMore<
+				SubscribeToNewMessagesSubscription,
+				SubscribeToNewMessagesSubscriptionVariables
+			>({
+				document: SubscribeToNewMessagesDocument,
+				updateQuery: (previousResults, { subscriptionData }) => {
+					const previousMessages = previousResults.messages
+					const message = subscriptionData.data.listen.relatedNode
 
-				if (!message || !previousMessages || message.__typename !== 'Message') {
-					return previousResults
-				}
-				return {
-					...previousResults,
-					messages: {
-						__typename: 'MessagesConnection',
-						edges: [
-							...previousMessages.edges,
-							{
-								__typename: 'MessagesEdge',
-								cursor: last(previousMessages.edges)?.node.nodeId,
-								node: message,
-							},
-						],
-					},
-				}
-			},
-		})
-	}, [])
+					if (
+						!message ||
+						!previousMessages ||
+						message.__typename !== 'Message'
+					) {
+						return previousResults
+					}
+					return {
+						...previousResults,
+						messages: {
+							__typename: 'MessagesConnection',
+							edges: [
+								...previousMessages.edges,
+								{
+									__typename: 'MessagesEdge',
+									cursor: last(previousMessages.edges)?.node.nodeId,
+									node: message,
+								},
+							],
+						},
+					}
+				},
+			}),
+		[subscribeToMore]
+	)
 
 	const more = () =>
 		fetchMore({
-			updateQuery: (previousResults, { variables, fetchMoreResult }) => {
+			updateQuery: (previousResults, { fetchMoreResult }) => {
 				const previousMessages = previousResults.messages?.edges
 				const messages = fetchMoreResult?.messages?.edges
 				if (!previousMessages || !messages) {
@@ -135,8 +125,8 @@ const IndexPage: FC<IndexPageProps> = ({}) => {
 					...edge.node,
 				}
 			}, data?.messages?.edges || []),
-			({ id, content }) => (
-				<div className="message">
+			({ id, content, nodeId }) => (
+				<div key={nodeId} className="message">
 					<div className="message__meta">message id: {id}</div>
 					<div className="message__content">{content}</div>
 				</div>
@@ -150,6 +140,7 @@ const IndexPage: FC<IndexPageProps> = ({}) => {
 				<button onClick={more}>more</button>
 			</div>
 			<div>
+				<h1>My App</h1>
 				<div>{messages}</div>
 			</div>
 			<div>
@@ -176,4 +167,5 @@ const IndexPage: FC<IndexPageProps> = ({}) => {
 	)
 }
 
-export default withApollo(IndexPage, { getDataFromTree })
+// export default withApollo(IndexPage, { getDataFromTree })
+export default withApollo(IndexPage, {})

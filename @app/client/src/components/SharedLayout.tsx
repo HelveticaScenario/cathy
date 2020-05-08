@@ -23,7 +23,6 @@ const Link: FC<LinkProps> = ({ children, href, ...props }) => {
 export interface SharedLayoutProps {}
 const SharedLayout: FC<SharedLayoutProps> = ({ children }) => {
 	const router = useRouter()
-	console.log(router.pathname)
 	// const client = useApolloClient()
 	return (
 		<>

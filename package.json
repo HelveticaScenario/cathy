@@ -2,6 +2,9 @@
   "name": "root",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">= 12.0.0 < 13.0.0"
+  },
   "scripts": {
     "setup": "yarn && yarn node ./scripts/setup.js",
     "watch": "concurrently --kill-others --names 'MIGRATE,LERNA' --prefix '({name})' --prefix-colors 'yellow.bold,cyan.bold,greenBright.bold' 'yarn db-watch' 'lerna run watch --stream'",
@@ -23,6 +26,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
     "graphile-build": "^4.5.0",
     "graphile-build-pg": "^4.5.3",
@@ -35,5 +39,7 @@
     "prettier": "^2.0.5",
     "typescript": "^3.8.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  }
 }

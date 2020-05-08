@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "es5",
+		"target": "esnext",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"skipLibCheck": true,
@@ -12,9 +12,16 @@
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
-		"jsx": "preserve",
-		"downlevelIteration": true
+		"jsx": "preserve"
+		// "downlevelIteration": true
 	},
 	"exclude": ["node_modules"],
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"src/middleware/commonMiddleware.js",
+		"src/middleware/cookieSession.js",
+		"src/middleware/cookieSessionRefresh.js"
+	]
 }

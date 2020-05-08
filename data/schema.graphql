@@ -249,6 +249,7 @@ type PageInfo {
 
 """The root query type which gives access points into the data universe."""
 type Query implements Node {
+  currentUserId: String
   message(id: UUID!): Message
 
   """Reads a single `Message` using its globally unique `ID`."""

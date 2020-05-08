@@ -4,7 +4,7 @@ import express from 'express'
 import { postgraphile, PostGraphileOptions, makePluginHook } from 'postgraphile'
 import PgSimplifyInflectorPlugin from '@graphile-contrib/pg-simplify-inflector'
 import PgPubsub from '@graphile/pg-pubsub'
-
+import cors from 'cors'
 const app = express()
 
 const pluginHook = makePluginHook([PgPubsub])
@@ -25,7 +25,7 @@ const postgraphileOptions: PostGraphileOptions = {
 	pluginHook,
 	subscriptions: true,
 	simpleSubscriptions: true,
-	enableCors: true,
+	// enableCors: true,
 	dynamicJson: true,
 	graphiql: true,
 	enhanceGraphiql: true,
@@ -45,6 +45,32 @@ const postgraphileOptions: PostGraphileOptions = {
 		// Makes all SQL function arguments except those with defaults non-nullable
 		pgStrictFunctions: true,
 	},
+	/*
+	 * Postgres transaction settings for each GraphQL query/mutation to
+	 * indicate to Postgres who is attempting to access the resources. These
+	 * will be referenced by RLS policies/triggers/etc.
+	 *
+	 * Settings set here will be set using the equivalent of `SET LOCAL`, so
+	 * certain things are not allowed. You can override Postgres settings such
+	 * as 'role' and 'search_path' here; but for settings indicating the
+	 * current user, session id, or other privileges to be used by RLS policies
+	 * the setting names must contain at least one and at most two period
+	 * symbols (`.`), and the first segment must not clash with any Postgres or
+	 * extension settings. We find `jwt.claims.*` to be a safe namespace,
+	 * whether or not you're using JWTs.
+	 */
+	// async pgSettings(req: any) {
+	// 	const firebaseId = req?.firebaseUser?.uid || null
+	// 	console.log('firebaseId', firebaseId)
+	// 	return {
+	// 		// Everyone uses the "visitor" role currently
+	// 		role: process.env.DATABASE_VISITOR,
+
+	// 		// Pass the firebase user id
+	// 		'firebase.user.uid': firebaseId,
+	// 	}
+	// },
+
 	// Keep data/schema.graphql up to date
 
 	/* ... */
@@ -54,6 +80,15 @@ if (isDev) {
 	postgraphileOptions.sortExport = true
 	postgraphileOptions.exportGqlSchemaPath = '../../data/schema.graphql'
 }
+// app.options('*', cors())
+app.use(
+	cors({
+		origin: 'http://localhost:3000',
+		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+		preflightContinue: false,
+		optionsSuccessStatus: 204,
+	})
+)
 app.use(postgraphile(pgConfig, ['public', 'app_public'], postgraphileOptions))
 app.use('/', (req, res, next) => {
 	res.send('<marquee>Welcome to my PostGraphile server!</marquee>')

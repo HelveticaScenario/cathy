@@ -31,3 +31,4 @@ yarn-error.log*
 
 loadProdCreds.sh
 heroku-setup.sh
+cathy-firebase-credentials.json
